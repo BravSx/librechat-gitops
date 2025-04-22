@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/yourusername/librechat-gitops.git
+    repoURL: https://github.com/BravSx/librechat-gitops.git
     targetRevision: HEAD
     path: charts/librechat
     helm:
