@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: librechat
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/yourusername/librechat-gitops.git
+    targetRevision: HEAD
+    path: charts/librechat
+    helm:
+      values: |
+        # Add custom values if needed
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: librechat
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

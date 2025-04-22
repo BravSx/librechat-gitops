@@ -1,0 +1,19 @@
+replicaCount: 1
+
+image:
+  repository: ollama/ollama
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 11434
+
+resources:
+  requests:
+    cpu: "1"
+    memory: "4Gi"
+  limits:
+    cpu: "2"
+    memory: "8Gi"

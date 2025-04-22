@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "librechat.fullname" . }}
+  labels:
+    {{- include "librechat.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "librechat.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "librechat.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: librechat
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+              protocol: TCP
+          env:
+            - name: LLM_API_URL
+              value: "http://{{ .Values.ollama.serviceName }}.{{ .Values.ollama.namespace }}.svc.cluster.local:{{ .Values.ollama.port }}"
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: librechat-secrets
+                  key: api-key
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}

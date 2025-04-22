@@ -1,0 +1,27 @@
+replicaCount: 1
+
+image:
+  repository: librechat/librechat
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 3080
+  targetPort: 3080
+
+ollama:
+  serviceName: ollama-service
+  namespace: ollama
+  port: 11434
+
+resources:
+  requests:
+    cpu: "0.5"
+    memory: "1Gi"
+  limits:
+    cpu: "1"
+    memory: "2Gi"
+
+secrets:
+  apiKey: ""  # Placeholder; user must create secret manually
